@@ -3,6 +3,7 @@ package yuba;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import renderer.Shader;
+import util.Time;
 
 import java.awt.event.KeyEvent;
 import java.nio.FloatBuffer;
@@ -88,11 +89,14 @@ public class LevelEditorScene extends Scene {
     @Override
     public void update(float dt) {
 
+
         camera.position.x -= dt * 50.f;
+        camera.position.y -= dt * 50.f;
 
         defaultShader.use();
         defaultShader.uploadMath4f("uProjection",camera.getProjectionMatrix());
         defaultShader.uploadMath4f("uView",camera.getViewMatrix());
+        defaultShader.uploadFloat("uTime", Time.getTime());
 
         // Bind VAO
         glBindVertexArray(vaoID);
