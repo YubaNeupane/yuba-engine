@@ -1,6 +1,7 @@
 package renderer;
 
 import components.SpriteRenderer;
+import util.AssetPool;
 import yuba.Window;
 import org.joml.Vector4f;
 
@@ -34,8 +35,7 @@ public class RenderBatch {
     private Shader shader;
 
     public RenderBatch(int maxBatchSize) {
-        shader = new Shader("assets/shaders/default.glsl");
-        shader.compile();
+        shader = AssetPool.getShader("assets/shaders/default.glsl");
         this.sprites = new SpriteRenderer[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
 
