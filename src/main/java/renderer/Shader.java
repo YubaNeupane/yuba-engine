@@ -61,9 +61,6 @@ public class Shader {
             assert false : "Error: Could not open file for shader: '" + filepath + "'";
         }
 
-        System.out.println(fragmentSource);
-        System.out.println(vertexSource);
-
 
     }
 

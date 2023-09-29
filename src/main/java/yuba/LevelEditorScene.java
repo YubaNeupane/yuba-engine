@@ -1,5 +1,7 @@
 package yuba;
 
+import components.FontRenderer;
+import components.SpriteRenderer;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import renderer.Shader;
@@ -41,11 +43,20 @@ public class LevelEditorScene extends Scene {
     private Texture testTexture;
     private Shader defaultShader;
 
+    GameObject testObj;
+    private boolean firstTime = false;
+
     public  LevelEditorScene(){
     }
 
     @Override
     public void init() {
+        System.out.println("Creating test object");
+        this.testObj = new GameObject("test object");
+        this.testObj.addComponent(new SpriteRenderer());
+        this.testObj.addComponent(new FontRenderer());
+        this.addGameObjectToScene(this.testObj);
+
         this.camera = new Camera(new Vector2f());
         defaultShader = new Shader("assets/shaders/default.glsl");
         defaultShader.compile();
@@ -127,6 +138,19 @@ public class LevelEditorScene extends Scene {
         glBindVertexArray(0);
 
         defaultShader.detach();
+
+        if(!firstTime){
+            System.out.println("Creating gameObject");
+            GameObject go = new GameObject("Game Test 2");
+            go.addComponent(new SpriteRenderer());
+            this.addGameObjectToScene(go);
+            firstTime = true;
+        }
+
+
+        for(GameObject go: this.gameObjects){
+            go.update(dt);
+        }
 
     }
 }
