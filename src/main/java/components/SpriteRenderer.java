@@ -4,12 +4,17 @@ import org.joml.Vector2f;
 import org.joml.Vector4f;
 import renderer.Texture;
 import yuba.Component;
+import yuba.Transform;
 
 public class SpriteRenderer extends Component {
 
     private Vector4f color;
 
     private Sprite sprite;
+
+    private Transform lastTransform;
+
+    private boolean isDirty = false;
 
     public SpriteRenderer(Vector4f color){
         this.color =color;
@@ -23,12 +28,15 @@ public class SpriteRenderer extends Component {
 
     @Override
     public void start() {
-
+        this.lastTransform = gameObject.transform.copy();
     }
 
     @Override
     public void update(float dt) {
-
+        if(!this.lastTransform.equals(this.gameObject.transform)){
+            this.gameObject.transform.copy(this.lastTransform);
+            isDirty = true;
+        }
     }
 
     public Vector4f getColor(){
@@ -41,6 +49,26 @@ public class SpriteRenderer extends Component {
 
     public Vector2f[] getTextCoords(){
         return sprite.getTexCoords();
+    }
+
+    public void setSprite(Sprite sprite){
+        this.sprite = sprite;
+        this.isDirty = true;
+    }
+
+    public void setColor (Vector4f color){
+        if(!this.color.equals(color)){
+            this.isDirty = true;
+            this.color.set(color);
+        }
+    }
+
+    public boolean isDirty(){
+        return this.isDirty;
+    }
+
+    public void setClean(){
+        this.isDirty = false;
     }
 
 }
