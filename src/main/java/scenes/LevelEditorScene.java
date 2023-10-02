@@ -1,25 +1,21 @@
 package scenes;
 
-import components.Rigidbody;
-import components.Sprite;
-import components.SpriteRenderer;
-import components.Spritesheet;
+import components.*;
 import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 import scenes.Scene;
 import util.AssetPool;
-import yuba.Camera;
-import yuba.GameObject;
-import yuba.MouseListener;
-import yuba.Transform;
+import yuba.*;
 
 public class LevelEditorScene extends Scene {
 
     GameObject obj1;
     GameObject obj2;
     Spritesheet sprites;
+    MouseControls mouseControls = new MouseControls();
+
     public  LevelEditorScene(){
     }
 
@@ -31,6 +27,7 @@ public class LevelEditorScene extends Scene {
 
         if(levelLoaded){
             this.activeGameObject = gameObjects.get(0);
+            this.activeGameObject.addComponent(new Rigidbody());
             return;
         }
 
@@ -68,8 +65,9 @@ public class LevelEditorScene extends Scene {
     @Override
     public void update(float dt) {
 //        System.out.println("FPS: " + (1.0f)/dt);
+        mouseControls.update(dt);
 
-        MouseListener.getOrthoX();
+//        System.out.println(MouseListener.getOrthoX() + " " + MouseListener.getOrthoY());
 
 
         for(GameObject go: this.gameObjects){
@@ -101,7 +99,10 @@ public class LevelEditorScene extends Scene {
 
             ImGui.pushID(i);
             if(ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[0].x, texCoords[0].y, texCoords[2].x, texCoords[2].y)){
-                System.out.println("Button " + i + " Clicked");
+                GameObject object = Prefabs.generateSpriteObject(sprite, spriteWidth, spriteHeight);
+
+                //Attach this to the mouse cursor
+                mouseControls.pickupObject(object);
             }
             ImGui.popID();
 
