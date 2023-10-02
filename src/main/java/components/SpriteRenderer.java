@@ -9,26 +9,26 @@ import yuba.Transform;
 
 public class SpriteRenderer extends Component {
 
-    private Vector4f color;
+    private Vector4f color = new Vector4f(1,1,1,1);
 
-    private Sprite sprite;
+    private Sprite sprite = new Sprite();
 
-    private Transform lastTransform;
+    private transient Transform lastTransform;
 
-    private boolean isDirty = false;
+    private transient boolean isDirty = false;
 
-    public SpriteRenderer(Vector4f color){
-        this.color =color;
-        this.sprite = new Sprite(null);
-        this.isDirty = true;
-    }
-
-    public SpriteRenderer(Sprite sprite){
-        this.sprite = sprite;
-        this.color = new Vector4f(1,1,1,1);
-        this.isDirty = true;
-
-    }
+//    public SpriteRenderer(Vector4f color){
+//        this.color =color;
+//        this.sprite = new Sprite(null);
+//        this.isDirty = true;
+//    }
+//
+//    public SpriteRenderer(Sprite sprite){
+//        this.sprite = sprite;
+//        this.color = new Vector4f(1,1,1,1);
+//        this.isDirty = true;
+//
+//    }
 
     @Override
     public void start() {
