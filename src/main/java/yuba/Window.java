@@ -3,6 +3,7 @@ package yuba;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import renderer.DebugDraw;
 import scenes.LevelEditorScene;
 import scenes.LevelScene;
 import scenes.Scene;
@@ -28,7 +29,7 @@ public class Window {
 
     private static Window window = null;
     private Window(){
-        this.width = 1920;
+        this.width = 2560;
         this.height = 1080;
         this.title = "Mario";
 
@@ -155,7 +156,10 @@ public class Window {
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
 
+            DebugDraw.beginFrame();
+
             if (dt >= 0) {
+                DebugDraw.draw();
                 currentScene.update(dt);
             }
 
