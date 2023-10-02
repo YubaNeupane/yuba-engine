@@ -14,33 +14,30 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {
-
     private int width, height;
     private String title;
     private long glfwWindow;
-
     private ImGuiLayer imguiLayer;
 
-    public float r,g,b,a;
+    public float r, g, b, a;
     private boolean fadeToBlack = false;
+
+    private static Window window = null;
 
     private static Scene currentScene;
 
-
-    private static Window window = null;
-    private Window(){
-        this.width = 2560;
+    private Window() {
+        this.width = 1920;
         this.height = 1080;
         this.title = "Mario";
-
         r = 1;
         b = 1;
         g = 1;
         a = 1;
     }
 
-    public static void changeScene(int newScene){
-        switch (newScene){
+    public static void changeScene(int newScene) {
+        switch (newScene) {
             case 0:
                 currentScene = new LevelEditorScene();
                 break;
@@ -48,7 +45,8 @@ public class Window {
                 currentScene = new LevelScene();
                 break;
             default:
-                assert false : "Unknown scene '"+ newScene + "'";
+                assert false : "Unknown scene '" + newScene + "'";
+                break;
         }
 
         currentScene.load();
@@ -56,20 +54,19 @@ public class Window {
         currentScene.start();
     }
 
-
-    public static Window get(){
-        if(Window.window == null){
+    public static Window get() {
+        if (Window.window == null) {
             Window.window = new Window();
         }
 
         return Window.window;
     }
 
-    public static Scene getScene(){
+    public static Scene getScene() {
         return get().currentScene;
     }
 
-    public void run(){
+    public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
         init();
@@ -79,18 +76,18 @@ public class Window {
         glfwFreeCallbacks(glfwWindow);
         glfwDestroyWindow(glfwWindow);
 
-        //Terminate GLFW and free the error callback
+        // Terminate GLFW and the free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();
     }
 
-    public void init(){
-        //Setup an error callback
+    public void init() {
+        // Setup an error callback
         GLFWErrorCallback.createPrint(System.err).set();
 
-        //Initialize GLFW
-        if (!glfwInit()){
-           throw new IllegalStateException("Unable to initialize GLFW");
+        // Initialize GLFW
+        if (!glfwInit()) {
+            throw new IllegalStateException("Unable to initialize GLFW.");
         }
 
         // Configure GLFW
@@ -99,31 +96,27 @@ public class Window {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
-        //Create the window
+        // Create the window
         glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
-        if(glfwWindow == NULL){
+        if (glfwWindow == NULL) {
             throw new IllegalStateException("Failed to create the GLFW window.");
         }
 
-        // Setting mouse callbacks
-        glfwSetCursorPosCallback(glfwWindow,MouseListener::mousePosCallback);
+        glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
         glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
         glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
-        glfwSetWindowSizeCallback(glfwWindow, (w,newWidth, newHeight)->{
+        glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
+        glfwSetWindowSizeCallback(glfwWindow, (w, newWidth, newHeight) -> {
             Window.setWidth(newWidth);
             Window.setHeight(newHeight);
         });
 
-        // Setting key callbacks
-        glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
-
-        // Make the  OpenGl context current
+        // Make the OpenGL context current
         glfwMakeContextCurrent(glfwWindow);
-
         // Enable v-sync
         glfwSwapInterval(1);
 
-        //Make the window visible
+        // Make the window visible
         glfwShowWindow(glfwWindow);
 
         // This line is critical for LWJGL's interoperation with GLFW's
@@ -134,11 +127,9 @@ public class Window {
         GL.createCapabilities();
 
         glEnable(GL_BLEND);
-        glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
-
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         this.imguiLayer = new ImGuiLayer(glfwWindow);
         this.imguiLayer.initImGui();
-
 
         Window.changeScene(0);
     }
@@ -148,15 +139,14 @@ public class Window {
         float endTime;
         float dt = -1.0f;
 
-
         while (!glfwWindowShouldClose(glfwWindow)) {
             // Poll events
             glfwPollEvents();
 
+            DebugDraw.beginFrame();
+
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
-
-            DebugDraw.beginFrame();
 
             if (dt >= 0) {
                 DebugDraw.draw();
@@ -170,23 +160,23 @@ public class Window {
             dt = endTime - beginTime;
             beginTime = endTime;
         }
+
         currentScene.saveExit();
     }
 
-    public static int getWidth(){
+    public static int getWidth() {
         return get().width;
     }
 
-    public static int getHeight(){
+    public static int getHeight() {
         return get().height;
     }
 
-    public static void setWidth(int newWidth){
+    public static void setWidth(int newWidth) {
         get().width = newWidth;
     }
 
-    public static void setHeight(int Height){
-        get().height = Height;
+    public static void setHeight(int newHeight) {
+        get().height = newHeight;
     }
-
 }
