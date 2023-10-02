@@ -6,12 +6,14 @@
         "type": "components.SpriteRenderer",
         "properties": {
           "color": {
-            "x": 0.5050485,
-            "y": 0.79702973,
-            "z": 0.7251576,
-            "w": 1.0
+            "x": 0.12935948,
+            "y": 0.4136808,
+            "z": 0.35012656,
+            "w": 0.77254903
           },
           "sprite": {
+            "width": 0.0,
+            "height": 0.0,
             "texCoords": [
               {
                 "x": 1.0,
@@ -71,6 +73,8 @@
             "w": 1.0
           },
           "sprite": {
+            "width": 0.0,
+            "height": 0.0,
             "texture": {
               "filePath": "assets/images/blendImage2.png",
               "texID": 3,
