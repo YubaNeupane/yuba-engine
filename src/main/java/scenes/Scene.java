@@ -1,11 +1,15 @@
-package yuba;
+package scenes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import components.Component;
+import components.ComponentDeserializer;
 import imgui.ImGui;
 import renderer.Renderer;
+import yuba.Camera;
+import yuba.GameObject;
+import yuba.GameObjectDeserializer;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;

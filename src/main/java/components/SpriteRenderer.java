@@ -4,7 +4,6 @@ import imgui.ImGui;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 import renderer.Texture;
-import yuba.Component;
 import yuba.Transform;
 
 public class SpriteRenderer extends Component {

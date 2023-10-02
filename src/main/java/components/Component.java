@@ -1,8 +1,9 @@
-package yuba;
+package components;
 
 import imgui.ImGui;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import yuba.GameObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

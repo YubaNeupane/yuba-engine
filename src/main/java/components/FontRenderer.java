@@ -1,7 +1,5 @@
 package components;
 
-import yuba.Component;
-
 public class FontRenderer extends Component {
 
     @Override

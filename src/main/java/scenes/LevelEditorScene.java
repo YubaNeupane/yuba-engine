@@ -1,7 +1,5 @@
-package yuba;
+package scenes;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import components.Rigidbody;
 import components.Sprite;
 import components.SpriteRenderer;
@@ -10,7 +8,12 @@ import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
+import scenes.Scene;
 import util.AssetPool;
+import yuba.Camera;
+import yuba.GameObject;
+import yuba.MouseListener;
+import yuba.Transform;
 
 public class LevelEditorScene extends Scene {
 
